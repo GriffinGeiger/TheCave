@@ -12,6 +12,7 @@ public class PlayerMovement2D : MonoBehaviour
     float horizontalMove = 0f;
     bool jump = false;
     bool crouch = false;
+    bool attack = false;
 
     void Awake()
     {
@@ -25,6 +26,11 @@ public class PlayerMovement2D : MonoBehaviour
 
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
+        if(Input.GetButtonDown("attack"))
+        {
+            Debug.Log("attack");
+            attack = true;
+        }
         if (Input.GetButtonDown("Jump"))
         {
             Debug.Log("Jumping");
@@ -49,7 +55,7 @@ public class PlayerMovement2D : MonoBehaviour
     }
     void FixedUpdate()
     {
-        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
+        controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump,attack);
         jump = false;
     }
 }
