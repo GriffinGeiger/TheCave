@@ -34,7 +34,7 @@ public class CharacterController2D : MonoBehaviour
     [Space]
 
     [SerializeField]
-    private float characterHealth = 100f;
+    public float characterHealth = 100f;
     [SerializeField]
     private float attackDamage = 15f;
     public BoxCollider2D attackHitbox;

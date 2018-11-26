@@ -14,6 +14,9 @@ public class ShadowEnemyMovement : MonoBehaviour {
     public float runSpeed = 35f;
     public float attackModeRange = 25f;
     public int jumpChance = 2; //out of 1000
+    public int attackChance = 50;
+    public float attackSpeedup = 1.25f;
+    System.Random rand = new System.Random();
 
     enum enemystate { searching, attacking };
     [SerializeField]
@@ -41,7 +44,23 @@ public class ShadowEnemyMovement : MonoBehaviour {
 
     private void AttackMode()
     {
-       
+
+        if (Player.transform.position.x > transform.position.x) //Player is to the right of this enemy
+        {
+            horizontalMove = attackSpeedup * runSpeed;
+        }
+        else
+        {
+            horizontalMove = attackSpeedup* (-runSpeed);
+        }
+        if (rand.Next(0, 1000) <= jumpChance)
+        {
+            jump = true;
+        }
+        if (rand.Next(0, 1000) <= attackChance)
+        {
+            attack = true;
+        }
     }
 
     private void Seek()
@@ -55,19 +74,16 @@ public class ShadowEnemyMovement : MonoBehaviour {
         {
             horizontalMove = -runSpeed;
         }
-        System.Random rand = new System.Random();
         if(rand.Next(0,1000) <= jumpChance)
         {
             jump = true;
         }
 
         //if player is within range switch to attacking
-        /*
-        if(Mathf.Abs(Player.transform.position.x - transform.position.x) >= attackModeRange)
+        if(Mathf.Abs(Player.transform.position.x - transform.position.x) <= attackModeRange)
         {
             enemyState = enemystate.attacking;
         }
-        */
     }
 
 
@@ -76,5 +92,6 @@ public class ShadowEnemyMovement : MonoBehaviour {
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump, attack);
         jump = false;
+        attack = false;
     }
 }

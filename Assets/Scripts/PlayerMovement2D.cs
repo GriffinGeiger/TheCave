@@ -13,6 +13,7 @@ public class PlayerMovement2D : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     bool attack = false;
+    public UnityEngine.UI.Text healthText;
 
     void Awake()
     {
@@ -21,6 +22,7 @@ public class PlayerMovement2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        healthText.text = "Player Health: " + controller.characterHealth;
         if (anime != null)
             anime.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
