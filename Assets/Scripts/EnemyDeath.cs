@@ -7,6 +7,6 @@ public class EnemyDeath : DeathAction {
 
     public override void Die()
     {
-        GameObject.Destroy(this);
+        GameObject.Destroy(GetComponentInParent<CharacterController2D>().gameObject);
     }
 }

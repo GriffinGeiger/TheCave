@@ -22,8 +22,9 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField]
     private Collider2D m_CrouchDisableCollider;             // A collider that will be disabled when crouching
 
-    const float k_GroundedRadius = .25f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
+    
+    public float k_GroundedRadius = .25f; // Radius of the overlap circle to determine if grounded
+    public bool m_Grounded;            // Whether or not the player is grounded.
     const float k_CeilingRadius = .5f; // Radius of the overlap circle to determine if the player can stand up
     private Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
@@ -37,7 +38,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField]
     private float attackDamage = 15f;
     public BoxCollider2D attackHitbox;
-     
+    public DeathAction death;
     [Header("Events")]
     [Space]
 
@@ -154,6 +155,7 @@ public class CharacterController2D : MonoBehaviour
         if(attack)
         {
             Attack();
+            attack = false;
         }
     }
 
@@ -174,20 +176,23 @@ public class CharacterController2D : MonoBehaviour
         Collider2D[] collider = Physics2D.OverlapBoxAll(attackHitbox.transform.position, attackHitbox.transform.localScale, 0f);
         foreach(Collider2D c in collider)
         {
-            CharacterController2D controller = c.GetComponent<CharacterController2D>();
-            /*get characterController2d component*/
-            if (controller != null)
-                controller.DealDamage(attackDamage);
-            //DealDamage
+            if (c.gameObject != this.gameObject)
+            {
+                CharacterController2D controller = c.GetComponent<CharacterController2D>();
+                /*get characterController2d component*/
+                if (controller != null)
+                    controller.DealDamage(attackDamage);
+                //DealDamage
+            }
         }
     }
 
     public void DealDamage(float damage)
     {
         characterHealth -= damage;
-        if(characterHealth < 0f)
+        if(characterHealth <= 0f)
         {
-            GetComponent<DeathAction>().Die();
+           death.Die();
         }
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement2D : MonoBehaviour
 {
-
+    
     public CharacterController2D controller;
     public Animator anime;
 
@@ -26,11 +26,13 @@ public class PlayerMovement2D : MonoBehaviour
 
         horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
-        if(Input.GetButtonDown("attack"))
+        if (Input.GetButtonDown("attack"))
         {
             Debug.Log("attack");
             attack = true;
         }
+        else
+            attack = false;
         if (Input.GetButtonDown("Jump"))
         {
             Debug.Log("Jumping");
