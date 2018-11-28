@@ -7,5 +7,6 @@ public class PlayerDeath : DeathAction {
     public override void Die()
     {
         Debug.Log("You Died");
+        FindObjectOfType<GameManager>().PlayerIsDead();
     }
 }

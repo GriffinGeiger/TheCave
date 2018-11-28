@@ -41,7 +41,9 @@ public class PlayerMovement2D : MonoBehaviour
             jump = true;
             if(anime != null)
                 anime.SetBool("Jumping", true);
-            //controller.timeOfJump = Time.time;
+            if(controller.m_Grounded)
+                FindObjectOfType<AudioManager>().Play("Jump");
+            
         }
 
         if (Input.GetButtonDown("Crouch"))
