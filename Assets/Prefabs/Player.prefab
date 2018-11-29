@@ -338,6 +338,7 @@ MonoBehaviour:
   controller: {fileID: 114651386915505834}
   anime: {fileID: 95850338067193582}
   runSpeed: 40
+  healthText: {fileID: 0}
 --- !u!114 &114651386915505834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -355,15 +356,17 @@ MonoBehaviour:
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16896
   m_GroundCheck: {fileID: 4425262530792690}
   m_CeilingCheck: {fileID: 4485569833909264}
   m_CrouchDisableCollider: {fileID: 0}
+  k_GroundedRadius: 0.25
   m_Grounded: 0
   characterHealth: 100
-  attackDamage: 15
+  attackDamage: 50
   attackHitbox: {fileID: 61342229210860996}
   death: {fileID: 114090727630808162}
+  knockBackForce: 500
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []

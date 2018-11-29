@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController2D : MonoBehaviour
@@ -30,6 +32,7 @@ public class CharacterController2D : MonoBehaviour
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
 
+
     [Header("Combat")]
     [Space]
 
@@ -39,6 +42,10 @@ public class CharacterController2D : MonoBehaviour
     private float attackDamage = 15f;
     public BoxCollider2D attackHitbox;
     public DeathAction death;
+    public float knockBackForce = 50f;
+    public bool dazed;
+    public float dazeTime = .1f;
+
     [Header("Events")]
     [Space]
 
@@ -84,6 +91,10 @@ public class CharacterController2D : MonoBehaviour
     public void Move(float move, bool crouch, bool jump,bool attack)
     {
         // If crouching, check to see if the character can stand up
+        if(dazed)
+        {
+            return;
+        }
         if (!crouch)
         {
             // If the character has a ceiling preventing them from standing up, keep them crouching
@@ -181,7 +192,10 @@ public class CharacterController2D : MonoBehaviour
                 CharacterController2D controller = c.GetComponent<CharacterController2D>();
                 /*get characterController2d component*/
                 if (controller != null)
+                {
                     controller.DealDamage(attackDamage);
+                    controller.KnockBack(this.transform);
+                }
                 //DealDamage
             }
         }
@@ -204,4 +218,24 @@ public class CharacterController2D : MonoBehaviour
             characterHealth = 100f;
         }
     }
+
+    public void KnockBack(Transform hitter)
+    {
+        dazed = true;
+        StartCoroutine("DazeTime");
+        if(hitter.position.x > this.transform.position.x) //knocked left
+        {
+            m_Rigidbody2D.AddForce(new Vector2(-knockBackForce,knockBackForce));
+        }
+        else
+            m_Rigidbody2D.AddForce(new Vector2(knockBackForce, knockBackForce));
+        
+    }
+
+    public IEnumerator DazeTime()
+    {
+        yield return new WaitForSeconds(dazeTime);
+        dazed = false;
+    }
+
 }

@@ -15,10 +15,11 @@ public class EnemySpawner : MonoBehaviour {
     [SerializeField]
     public GameObject player;
     public float spawnPeriod = 10f;
+    public int enemyPerSpawn = 1;
     static System.Random rand = new System.Random();
     void Awake()
     {
-        StartCoroutine("SpawnPeriodically");
+        
     }
     public void SpawnEnemy(int quantity)
     {
@@ -31,12 +32,17 @@ public class EnemySpawner : MonoBehaviour {
             GameObject.Instantiate(enemyPrefab, new Vector3(xSpawn, ySpawn, 0.4132823f), Quaternion.identity);
         }
     }
+    public void SpawnEnemy(Vector3 location)
+    {
+        GameObject.Instantiate(enemyPrefab, location, Quaternion.identity);
+    }
 
     IEnumerator SpawnPeriodically()
     {
         for(;;)
         {
-            SpawnEnemy(1);
+            SpawnEnemy(enemyPerSpawn);
+            enemyPerSpawn++;
             yield return new WaitForSeconds(spawnPeriod);
         }
     }

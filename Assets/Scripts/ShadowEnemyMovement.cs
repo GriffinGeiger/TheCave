@@ -15,8 +15,11 @@ public class ShadowEnemyMovement : MonoBehaviour {
     public float attackModeRange = 25f;
     public int jumpChance = 2; //out of 1000
     public int attackChance = 50;
+    public int soundChance = 1;
     public float attackSpeedup = 1.25f;
+
     System.Random rand = new System.Random();
+    AudioManager audioManager;
 
     enum enemystate { searching, attacking };
     [SerializeField]
@@ -25,26 +28,31 @@ public class ShadowEnemyMovement : MonoBehaviour {
     void Awake()
     {
         Player = FindObjectOfType<PlayerMovement2D>().gameObject;
+        audioManager = FindObjectOfType<AudioManager>();
     }
 	void Update ()
     {
-        switch (enemyState)
-        {
-            case enemystate.searching:
-                Seek();
-                break;
-            case enemystate.attacking:
-                AttackMode();
-                break;
-            default:
-                break;
-        }
+
+            switch (enemyState)
+            {
+                case enemystate.searching:
+                    Seek();
+                    break;
+                case enemystate.attacking:
+                    AttackMode();
+                    break;
+                default:
+                    break;
+            }
     }
 
 
     private void AttackMode()
     {
-
+        if(rand.Next(0,1000)<=soundChance)
+        {
+            audioManager.Play("ShadowIdle");
+        }
         if (Player.transform.position.x > transform.position.x) //Player is to the right of this enemy
         {
             horizontalMove = attackSpeedup * runSpeed;

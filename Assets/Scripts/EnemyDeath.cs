@@ -8,5 +8,6 @@ public class EnemyDeath : DeathAction {
     public override void Die()
     {
         GameObject.Destroy(GetComponentInParent<CharacterController2D>().gameObject);
+        FindObjectOfType<AudioManager>().Play("EnemyDeath");
     }
 }

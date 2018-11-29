@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114716289578911194}
   - component: {fileID: 50060410576870076}
   - component: {fileID: 61401844874460242}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ShadowEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4658437930651808}
   - component: {fileID: 212562266014616556}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ShadowBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4962326905697008}
   - component: {fileID: 58281092289467950}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: CeilingCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4094531716270150}
   - component: {fileID: 61539204945810234}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: AttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4083062284984456}
   - component: {fileID: 58730034614652298}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_AirControl: 0
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 16896
   m_GroundCheck: {fileID: 4083062284984456}
   m_CeilingCheck: {fileID: 4962326905697008}
   m_CrouchDisableCollider: {fileID: 0}
@@ -291,6 +291,9 @@ MonoBehaviour:
   attackDamage: 10
   attackHitbox: {fileID: 61539204945810234}
   death: {fileID: 114498361175571354}
+  knockBackForce: 500
+  dazed: 0
+  dazeTime: 0.5
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -324,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 114455438533279302}
-  runSpeed: 10
+  runSpeed: 20
   attackModeRange: 5
   jumpChance: 1
   attackChance: 50

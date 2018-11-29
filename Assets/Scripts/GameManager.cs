@@ -26,21 +26,6 @@ public class GameManager : MonoBehaviour
         gameState = GameStates.Menu;
     }
 
-    void Update()
-    {
-        switch (gameState)
-        {
-            case GameStates.Menu:
-                break;
-            case GameStates.Dialogue:
-                break;
-            case GameStates.Play:
-                break;
-            default:
-                break;
-        }
-
-    }
 
     public void PlayerIsDead()
     {
