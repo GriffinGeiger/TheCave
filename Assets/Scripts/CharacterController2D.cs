@@ -39,7 +39,7 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField]
     public float characterHealth = 100f;
     [SerializeField]
-    private float attackDamage = 15f;
+    public float attackDamage = 15f;
     public BoxCollider2D attackHitbox;
     public DeathAction death;
     public float knockBackForce = 50f;
@@ -182,8 +182,9 @@ public class CharacterController2D : MonoBehaviour
         transform.localScale = theScale;
     }
 
-    private void Attack()
+    public void Attack()
     {
+        bool hitSomething = false;
         Collider2D[] collider = Physics2D.OverlapBoxAll(attackHitbox.transform.position, attackHitbox.transform.localScale, 0f);
         foreach(Collider2D c in collider)
         {
@@ -193,11 +194,16 @@ public class CharacterController2D : MonoBehaviour
                 /*get characterController2d component*/
                 if (controller != null)
                 {
+                    hitSomething = true;
                     controller.DealDamage(attackDamage);
                     controller.KnockBack(this.transform);
                 }
                 //DealDamage
             }
+        }
+        if(hitSomething)
+        {
+            FindObjectOfType<AudioManager>().Play("Punch");
         }
     }
 

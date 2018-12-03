@@ -17,9 +17,14 @@ public class ShadowEnemyMovement : MonoBehaviour {
     public int attackChance = 50;
     public int soundChance = 1;
     public float attackSpeedup = 1.25f;
+    public float attackDistance;
+    public float tooCloseDistance;
+
+
 
     System.Random rand = new System.Random();
     AudioManager audioManager;
+    public Animator anime;
 
     enum enemystate { searching, attacking };
     [SerializeField]
@@ -61,13 +66,30 @@ public class ShadowEnemyMovement : MonoBehaviour {
         {
             horizontalMove = attackSpeedup* (-runSpeed);
         }
-        if (rand.Next(0, 1000) <= jumpChance)
+        if (Mathf.Abs(Player.transform.position.x - transform.position.x) < attackDistance)
         {
-            jump = true;
+            if (rand.Next(0, 1000) <= 2*jumpChance)
+            {
+                jump = true;
+            }
+            if (rand.Next(0, 1000) <= attackChance)
+            {
+                anime.SetBool("Attacking", true);
+
+                //attack = true;
+            }
         }
-        if (rand.Next(0, 1000) <= attackChance)
+
+        if(Mathf.Abs(Player.transform.position.x - transform.position.x) < tooCloseDistance)
         {
-            attack = true;
+            if (Player.transform.position.x > transform.position.x) //Player is to the right of this enemy
+            {
+                horizontalMove = -runSpeed;
+            }
+            else
+            {
+                horizontalMove = runSpeed;
+            }
         }
     }
 
@@ -101,5 +123,15 @@ public class ShadowEnemyMovement : MonoBehaviour {
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump, attack);
         jump = false;
         attack = false;
+    }
+
+    void Attack()
+    {
+        controller.Attack();
+    }
+
+    void AttackEnded()
+    {
+        anime.SetBool("Attacking", false);
     }
 }

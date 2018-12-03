@@ -22,7 +22,8 @@ public class PlayerMovement2D : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        healthText.text = "Player Health: " + controller.characterHealth;
+        if(healthText != null)
+            healthText.text = "Player Health: " + controller.characterHealth;
         if (anime != null)
             anime.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
@@ -31,7 +32,9 @@ public class PlayerMovement2D : MonoBehaviour
         if (Input.GetButtonDown("attack"))
         {
             Debug.Log("attack");
-            attack = true;
+            anime.SetBool("Attacking", true);
+            Attack();
+            //attack = true;
         }
         else
             attack = false;
@@ -63,5 +66,18 @@ public class PlayerMovement2D : MonoBehaviour
     {
         controller.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump,attack);
         jump = false;
+    }
+    void Attack()
+    {
+        controller.Attack();
+    }
+
+    void AttackEnded()
+    {
+        anime.SetBool("Attacking", false);
+    }
+    void StepSound()
+    {
+        FindObjectOfType<AudioManager>().Play("Step");
     }
 }

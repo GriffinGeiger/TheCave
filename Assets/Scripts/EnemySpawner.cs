@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour {
     public GameObject player;
     public float spawnPeriod = 10f;
     public int enemyPerSpawn = 1;
+    public int maxEnemySpawnCount = 7;
     static System.Random rand = new System.Random();
     void Awake()
     {
@@ -42,7 +43,10 @@ public class EnemySpawner : MonoBehaviour {
         for(;;)
         {
             SpawnEnemy(enemyPerSpawn);
-            enemyPerSpawn++;
+            if(enemyPerSpawn < maxEnemySpawnCount)
+            {
+                enemyPerSpawn++;
+            }
             yield return new WaitForSeconds(spawnPeriod);
         }
     }

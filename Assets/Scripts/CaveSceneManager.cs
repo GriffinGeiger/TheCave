@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CaveSceneManager : MonoBehaviour {
 
-    public enum CaveSceneStates { Menu, Dialogue, Play}
-    public CaveSceneStates caveSceneState = CaveSceneStates.Menu;
+    public enum CaveSceneStates {Dialogue, Play}
+    public CaveSceneStates caveSceneState = CaveSceneStates.Dialogue;
     public Text dialogueText;
     public Text startText;
     public string[] dialogue;
@@ -23,16 +25,6 @@ public class CaveSceneManager : MonoBehaviour {
     {
         switch (caveSceneState)
         {
-            case CaveSceneStates.Menu:
-                //display start message
-                startText.enabled = true;
-                if(Input.GetButtonDown("Select"))
-                {
-                    caveSceneState = CaveSceneStates.Dialogue;
-                    GetComponent<EnemySpawner>().SpawnEnemy(player.transform.position + firstShadowOffset);
-                }
-
-                break;
             case CaveSceneStates.Dialogue:
                 startText.enabled = false;
                 dialogueText.enabled = true;
@@ -41,7 +33,14 @@ public class CaveSceneManager : MonoBehaviour {
             case CaveSceneStates.Play:
                 if(!alreadyPlaying)
                 {
-                    GetComponent<EnemySpawner>().StartCoroutine("SpawnPeriodically");
+                    try
+                    {
+                        GetComponent<EnemySpawner>().StartCoroutine("SpawnPeriodically");
+                    }
+                    catch (Exception)
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                    }
                     alreadyPlaying = true;
                 }
                 break;
@@ -65,6 +64,33 @@ public class CaveSceneManager : MonoBehaviour {
         }
         else
             dialogueText.text = dialogue[dialogueIndex];
+        Text crazyTalk= null;
+        Text runAway = null;
+        try
+        {
+            crazyTalk = GameObject.Find("This guy's crazy!").GetComponent<Text>();
+            runAway = GameObject.Find("Run away!").GetComponent<Text>();
+        } catch (Exception) { }
+        if (crazyTalk != null)
+        {
+            if(dialogueIndex == 1)
+            {
+                crazyTalk.enabled = true;
+            }
+            else
+            {
+                crazyTalk.enabled = false;
+            }
+        }
+        if(runAway != null)
+        {
+            if (dialogueIndex == 2)
+            {
+                runAway.enabled = true;
+            }
+            else
+                runAway.enabled = false;
+        }
     }
 
     IEnumerator MakeDialogueDisappear()

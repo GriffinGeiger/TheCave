@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,9 +22,14 @@ public class GameManager : MonoBehaviour
         else
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         gameState = GameStates.Menu;
+        try
+        {
+
+        }
+        catch (Exception) { }
     }
 
 
@@ -38,7 +44,13 @@ public class GameManager : MonoBehaviour
         fadeAnim.SetBool("Fade", true);
         yield return new WaitUntil(() => black.color.a == 1);
         Debug.Log("Loading New Scene");
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        try
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }catch(Exception)
+        {
+            Debug.Log("Game Ended");
+        }
     }
 }
 
