@@ -31,14 +31,17 @@ public class CharacterController: MonoBehaviour
 
     private Vector3 lastPosition;
     public Vector3 deltaPosition = Vector3.zero;
+    [SerializeField]
+    float jumpCheckTime = .05f;
     [Header("Events")]
     [Space]
 
     public UnityEvent OnLandEvent;
     public UnityEvent TurnAroundEvent;
 
+    [HideInInspector]
     public float timeOfJump;
-    float jumpCheckTime = .05f;
+    
 
 
     [System.Serializable]

@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour {
     bool jump = false;
     bool crouch = false;
 	
+    void Awake ()
+    {
+        controller.OnLandEvent.AddListener(OnLanding);
+    }
 	// Update is called once per frame
 	void Update ()
     {
@@ -22,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             Debug.Log("Jumping");
             jump = true;
-            anime.SetBool("IsJumping", true);
+            anime.SetBool("Jumping", true);
             controller.timeOfJump = Time.time;
         }
         
@@ -37,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
     public void OnLanding()
     {
-        anime.SetBool("IsJumping", false);
+        anime.SetBool("Jumping", false);
     }
     void FixedUpdate()
     {
